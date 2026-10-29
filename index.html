@@ -397,7 +397,11 @@ p.lead{font-size:clamp(17px,1.35vw,20px);color:var(--muted-d);max-width:56ch}
 <!-- HERO: o corpo em pontos, a palmilha entra e o eixo se organiza -->
 <section class="hero" id="inicio">
   <div class="stage" id="stage" aria-hidden="true">
-    <video id="heroVideo" class="hero-video" muted playsinline preload="auto" poster="media/hero-poster.jpg" data-pc="media/hero-16x9.mp4" data-cel="media/hero-9x16.mp4"></video>
+    <video id="heroVideo" class="hero-video" autoplay loop muted playsinline preload="auto" poster="media/hero-poster.jpg">
+      <source media="(max-width: 980px)" src="media/hero-9x16.mp4" type="video/mp4">
+      <source src="media/hero-16x9.mp4" type="video/mp4">
+    </video>
+    <script>if(matchMedia('(max-width: 980px)').matches)document.getElementById('heroVideo').poster='media/hero-poster-cel.jpg'</script>
     <div class="hero-loopfade" id="heroLoopFade"></div>
     <div class="hero-dim" id="heroDim"></div>
   </div>
@@ -691,18 +695,24 @@ document.querySelectorAll('[data-wa]').forEach(function(a){
 var hero=document.querySelector('.hero');
 setTimeout(function(){hero.classList.add('go')},260);
 
-/* abertura: vídeo em loop (vertical no celular). Se o celular bloquear o vídeo automático (modo economia de bateria),
-   fica o primeiro quadro em HD parado e o primeiro toque na tela solta o vídeo */
+/* abertura: vídeo com autoplay e loop direto no HTML (vertical no celular, pelo <source media>).
+   Se o celular barrar o vídeo automático (iPhone no modo economia), o Safari ainda toca o mesmo MP4 como imagem,
+   em loop e na mesma qualidade; nos outros navegadores fica o primeiro quadro em HD e o primeiro toque solta o vídeo */
 var hv=document.getElementById('heroVideo');
 if(hv&&!/[?&]hero=3d/.test(location.search)){
   var cel=window.matchMedia('(max-width: 980px)').matches;
   var hb=document.getElementById('hudBase'),he=document.getElementById('hudEixo'),lf=document.getElementById('heroLoopFade');
-  var tocando=false;
-  if(cel)hv.poster='media/hero-poster-cel.jpg';
-  hv.muted=true; hv.loop=true; hv.src=cel?hv.dataset.cel:hv.dataset.pc;
-  hv.addEventListener('error',function(){hv.remove()});
-  hv.addEventListener('playing',function(){tocando=true});
-  var p=hv.play(); if(p&&p.catch)p.catch(function(){});
+  var tocando=false,comoImagem=null;
+  hv.muted=true; hv.loop=true;
+  hv.addEventListener('playing',function(){tocando=true; if(comoImagem){comoImagem.remove();comoImagem=null}});
+  function tocaComoImagem(){
+    if(!cel||tocando||comoImagem)return;
+    var im=new Image(); im.className='hero-video'; im.alt=''; im.setAttribute('aria-hidden','true');
+    im.onload=function(){ if(!tocando){ comoImagem=im; hv.after(im); } };
+    im.src='media/hero-9x16.mp4';   /* só o Safari aceita MP4 em <img>; nos outros, o onerror ignora */
+  }
+  var p=hv.play(); if(p&&p.catch)p.catch(tocaComoImagem);
+  setTimeout(function(){if(!tocando)tocaComoImagem()},1500);
   /* toque na tela é gesto do usuário: libera o vídeo mesmo no modo economia */
   ['touchend','pointerup','click'].forEach(function(ev){addEventListener(ev,function tenta(){
     if(tocando){removeEventListener(ev,tenta);return}
