@@ -692,34 +692,40 @@ document.querySelectorAll('[data-wa]').forEach(function(a){
 var hero=document.querySelector('.hero');
 setTimeout(function(){hero.classList.add('go')},260);
 
-/* abertura: no computador, vídeo em loop; no celular, imagem animada (o celular bloqueia vídeo automático,
-   inclusive no modo economia de bateria, mas nunca bloqueia imagem animada) */
+/* abertura: vídeo em loop (vertical no celular). Se o celular bloquear o vídeo automático (modo economia de bateria),
+   entra uma imagem animada de reserva, e o primeiro toque na tela troca de volta para o vídeo */
 var hv=document.getElementById('heroVideo');
 if(hv&&!/[?&]hero=3d/.test(location.search)){
   var cel=window.matchMedia('(max-width: 980px)').matches;
   var hb=document.getElementById('hudBase'),he=document.getElementById('hudEixo'),lf=document.getElementById('heroLoopFade');
-  if(cel){
-    hv.poster='media/hero-poster-cel.jpg';
-    var im=new Image();
-    im.className='hero-video'; im.alt=''; im.decoding='async'; im.setAttribute('aria-hidden','true');
-    im.onload=function(){ im.id='heroVideo'; hv.replaceWith(im); hv=im; };
-    im.src='media/hero-9x16.webp';
-  }else{
-    hv.src=hv.dataset.pc; hv.loop=true;
-    hv.addEventListener('error',function(){hv.remove()});
-    var p=hv.play(); if(p&&p.catch)p.catch(function(){});
-    /* fade curto pro escuro na virada do loop numa camada por cima (o vídeo nunca fica invisível) e painel de leitura no ritmo do vídeo */
-    var lastBase='',lastEixo='';
-    (function sync(){
-      if(hv.isConnected&&hv.duration){
-        var t=hv.currentTime,r=hv.duration-t;
-        lf.classList.toggle('on',r<.5||t<.12);
-        var b=t>1.1?'palmilha AXIS':'sem palmilha',e=t>6.4?'alinhado':'em leitura';
-        if(b!==lastBase){hb.textContent=lastBase=b} if(e!==lastEixo){he.textContent=lastEixo=e}
-      }
-      requestAnimationFrame(sync);
-    })();
+  var tocando=false,reserva=null;
+  if(cel)hv.poster='media/hero-poster-cel.jpg';
+  hv.muted=true; hv.loop=true; hv.src=cel?hv.dataset.cel:hv.dataset.pc;
+  hv.addEventListener('error',function(){hv.remove()});
+  hv.addEventListener('playing',function(){tocando=true; if(reserva){reserva.remove();reserva=null}});
+  function usarReserva(){
+    if(!cel||tocando||reserva)return;
+    reserva=new Image(); reserva.className='hero-video'; reserva.alt=''; reserva.decoding='async'; reserva.setAttribute('aria-hidden','true');
+    reserva.src='media/hero-9x16.webp'; hv.after(reserva);
   }
+  var p=hv.play(); if(p&&p.catch)p.catch(usarReserva);
+  setTimeout(function(){if(!tocando)usarReserva()},1600);
+  /* toque na tela é gesto do usuário: libera o vídeo mesmo no modo economia */
+  ['touchend','pointerup','click'].forEach(function(ev){addEventListener(ev,function tenta(){
+    if(tocando){removeEventListener(ev,tenta);return}
+    var q=hv.play(); if(q&&q.catch)q.catch(function(){});
+  },{passive:true})});
+  /* fade curto pro escuro na virada do loop numa camada por cima (o vídeo nunca fica invisível) e painel de leitura no ritmo do vídeo */
+  var lastBase='',lastEixo='';
+  (function sync(){
+    if(tocando&&hv.isConnected&&hv.duration){
+      var t=hv.currentTime,r=hv.duration-t;
+      lf.classList.toggle('on',r<.5||t<.12);
+      var b=t>1.1?'palmilha AXIS':'sem palmilha',e=t>6.4?'alinhado':'em leitura';
+      if(b!==lastBase){hb.textContent=lastBase=b} if(e!==lastEixo){he.textContent=lastEixo=e}
+    }
+    requestAnimationFrame(sync);
+  })();
 }else if(hv){hv.remove()}
 
 /* topo, cortina e menu */
@@ -734,8 +740,9 @@ function onScroll(){
     lastS=s;
     copy.style.transform='translate3d(0,'+(-s*90)+'px,0)';copy.style.opacity=String(Math.max(0,1-s*1.6));
     if(cue)cue.style.opacity=String(Math.max(0,1-s*3));if(hud)hud.style.opacity=String(Math.max(0,1-s*2));
+    document.querySelectorAll('.hero-video').forEach(function(el){el.style.transform='translate3d(0,'+(s*-6)+'vh,0) scale('+(1+s*.22)+')'});
     var v=document.getElementById('heroVideo');
-    if(v){v.style.transform='translate3d(0,'+(s*-6)+'vh,0) scale('+(1+s*.22)+')';
+    if(v){
       if(v.pause){if(s>=1&&!coberto){coberto=true;v.pause()} else if(s<1&&coberto){coberto=false;var pp=v.play();if(pp&&pp.catch)pp.catch(function(){})}}}
     if(dim)dim.style.opacity=String(s*.65);
   }
