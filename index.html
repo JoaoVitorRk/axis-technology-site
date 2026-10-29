@@ -94,8 +94,7 @@ p.lead{font-size:clamp(17px,1.35vw,20px);color:var(--muted-d);max-width:56ch}
 /* computador: o vídeo mantém 16:9 na altura da tela e o corpo termina em ~66% da largura, à direita do título */
 .hero-video{position:absolute;top:0;height:100%;width:177.78cqh;left:calc(70cqw - 106.67cqh);object-fit:cover;transform-origin:60% 55%;will-change:transform;
   -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 14%,#000 90%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 14%,#000 90%,transparent 100%)}
-@media (max-width:980px){.hero-video{left:0;width:100%;height:84%;object-position:center bottom;
-  -webkit-mask-image:linear-gradient(180deg,#000 82%,transparent 100%);mask-image:linear-gradient(180deg,#000 82%,transparent 100%)}}
+@media (max-width:980px){.hero-video{left:0;width:100%;height:100%;object-position:center top;-webkit-mask-image:none;mask-image:none}}
 .hero-loopfade{position:absolute;inset:0;background:var(--ink);opacity:0;pointer-events:none;transition:opacity .45s ease}
 .hero-loopfade.on{opacity:1}
 .hero-dim{position:absolute;inset:0;background:var(--ink);opacity:0;pointer-events:none;will-change:opacity}
@@ -693,23 +692,17 @@ var hero=document.querySelector('.hero');
 setTimeout(function(){hero.classList.add('go')},260);
 
 /* abertura: vídeo em loop (vertical no celular). Se o celular bloquear o vídeo automático (modo economia de bateria),
-   entra uma imagem animada de reserva, e o primeiro toque na tela troca de volta para o vídeo */
+   fica o primeiro quadro em HD parado e o primeiro toque na tela solta o vídeo */
 var hv=document.getElementById('heroVideo');
 if(hv&&!/[?&]hero=3d/.test(location.search)){
   var cel=window.matchMedia('(max-width: 980px)').matches;
   var hb=document.getElementById('hudBase'),he=document.getElementById('hudEixo'),lf=document.getElementById('heroLoopFade');
-  var tocando=false,reserva=null;
+  var tocando=false;
   if(cel)hv.poster='media/hero-poster-cel.jpg';
   hv.muted=true; hv.loop=true; hv.src=cel?hv.dataset.cel:hv.dataset.pc;
   hv.addEventListener('error',function(){hv.remove()});
-  hv.addEventListener('playing',function(){tocando=true; if(reserva){reserva.remove();reserva=null}});
-  function usarReserva(){
-    if(!cel||tocando||reserva)return;
-    reserva=new Image(); reserva.className='hero-video'; reserva.alt=''; reserva.decoding='async'; reserva.setAttribute('aria-hidden','true');
-    reserva.src='media/hero-9x16.webp'; hv.after(reserva);
-  }
-  var p=hv.play(); if(p&&p.catch)p.catch(usarReserva);
-  setTimeout(function(){if(!tocando)usarReserva()},1600);
+  hv.addEventListener('playing',function(){tocando=true});
+  var p=hv.play(); if(p&&p.catch)p.catch(function(){});
   /* toque na tela é gesto do usuário: libera o vídeo mesmo no modo economia */
   ['touchend','pointerup','click'].forEach(function(ev){addEventListener(ev,function tenta(){
     if(tocando){removeEventListener(ev,tenta);return}
