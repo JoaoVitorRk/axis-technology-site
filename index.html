@@ -49,7 +49,7 @@ p.lead{font-size:clamp(17px,1.35vw,20px);color:var(--muted-d);max-width:56ch}
 .light p.lead{color:var(--muted-l)}
 
 /* grão de filme */
-.grain{position:fixed;inset:-50%;z-index:90;pointer-events:none;opacity:.13;mix-blend-mode:soft-light;
+.grain{position:fixed;inset:-50%;z-index:90;pointer-events:none;opacity:.045;will-change:transform;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   animation:grain 1.2s steps(6) infinite}
 @keyframes grain{0%{transform:translate(0,0)}20%{transform:translate(-4%,3%)}40%{transform:translate(3%,-5%)}60%{transform:translate(-2%,4%)}80%{transform:translate(5%,1%)}100%{transform:translate(0,0)}}
@@ -97,6 +97,7 @@ p.lead{font-size:clamp(17px,1.35vw,20px);color:var(--muted-d);max-width:56ch}
 @media (max-width:980px){.hero-video{left:0;width:100%;height:84%;object-position:center bottom;
   -webkit-mask-image:linear-gradient(180deg,#000 82%,transparent 100%);mask-image:linear-gradient(180deg,#000 82%,transparent 100%)}}
 .hero-video.fade{opacity:0}
+.hero-dim{position:absolute;inset:0;background:var(--ink);opacity:0;pointer-events:none;will-change:opacity}
 .hero-video::-webkit-media-controls{display:none!important}
 .hero::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(3,9,13,.88) 0%,rgba(3,9,13,.55) 30%,rgba(3,9,13,0) 55%),linear-gradient(0deg,rgba(3,9,13,.7) 0%,rgba(3,9,13,0) 22%)}
 .hero::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;opacity:0;background:var(--ink);transition:opacity 1.4s ease}
@@ -135,9 +136,9 @@ p.lead{font-size:clamp(17px,1.35vw,20px);color:var(--muted-d);max-width:56ch}
 .petrol-to-ink{background:linear-gradient(var(--petrol),var(--ink))}
 
 /* reveal */
-.js .reveal{opacity:0;transform:translateY(34px);transition:opacity 1s ease,transform 1.1s cubic-bezier(.2,.8,.2,1)}
+.js .reveal{opacity:0;transform:translate3d(0,22px,0);transition:opacity .6s ease-out,transform .7s cubic-bezier(.2,.8,.2,1)}
 .js .reveal.in{opacity:1;transform:none}
-.d1{transition-delay:.1s!important}.d2{transition-delay:.2s!important}.d3{transition-delay:.32s!important}
+.d1{transition-delay:.05s!important}.d2{transition-delay:.1s!important}.d3{transition-delay:.15s!important}
 
 /* manifesto */
 .manifesto{padding:clamp(40px,6vw,90px) 0 clamp(70px,7vw,110px);position:relative}
@@ -397,6 +398,7 @@ p.lead{font-size:clamp(17px,1.35vw,20px);color:var(--muted-d);max-width:56ch}
 <section class="hero" id="inicio">
   <div class="stage" id="stage" aria-hidden="true">
     <video id="heroVideo" class="hero-video" muted playsinline preload="auto" poster="media/hero-poster.jpg" data-pc="media/hero-16x9.mp4" data-cel="media/hero-9x16.mp4"></video>
+    <div class="hero-dim" id="heroDim"></div>
   </div>
   <div class="hud mono" aria-hidden="true">
     <div>scan postural · vista posterior</div>
@@ -712,15 +714,25 @@ if(hv&&!/[?&]hero=3d/.test(location.search)){
 
 /* topo, cortina e menu */
 var top=document.getElementById('top'),copy=document.getElementById('heroCopy'),cue=document.querySelector('.hero .scroll-cue'),hud=document.querySelector('.hero .hud');
+/* tudo que reage à rolagem roda num quadro só (sem desfoque: só transform e opacity, que a placa de vídeo faz sozinha) */
+var dim=document.getElementById('heroDim'),lastS=-1,ticking=false,coberto=false;
 function onScroll(){
+  ticking=false;
   var y=window.scrollY,vh=window.innerHeight,s=Math.min(1,y/vh);
   top.classList.toggle('solid',y>vh*.6);
-  if(s<1){copy.style.transform='translate3d(0,'+(-s*90)+'px,0)';copy.style.opacity=String(Math.max(0,1-s*1.6));
+  if(s!==lastS){
+    lastS=s;
+    copy.style.transform='translate3d(0,'+(-s*90)+'px,0)';copy.style.opacity=String(Math.max(0,1-s*1.6));
     if(cue)cue.style.opacity=String(Math.max(0,1-s*3));if(hud)hud.style.opacity=String(Math.max(0,1-s*2));
-    var v=document.getElementById('heroVideo');if(v){v.style.transform='translate3d(0,'+(s*-6)+'vh,0) scale('+(1+s*.22)+')';v.style.filter='brightness('+(1-s*.6)+') blur('+(s*6)+'px)'}}
+    var v=document.getElementById('heroVideo');
+    if(v){v.style.transform='translate3d(0,'+(s*-6)+'vh,0) scale('+(1+s*.22)+')';
+      if(s>=1&&!coberto){coberto=true;v.pause()} else if(s<1&&coberto){coberto=false;var pp=v.play();if(pp&&pp.catch)pp.catch(function(){})}}
+    if(dim)dim.style.opacity=String(s*.65);
+  }
   window.__heroScroll=s;
+  para();
 }
-window.addEventListener('scroll',onScroll,{passive:true}); onScroll();
+window.addEventListener('scroll',function(){if(!ticking){ticking=true;requestAnimationFrame(onScroll)}},{passive:true});
 var drawer=document.getElementById('drawer'),mb=document.getElementById('menuBtn');
 function setMenu(o){drawer.classList.toggle('open',o);drawer.setAttribute('aria-hidden',!o);mb.setAttribute('aria-expanded',o);document.body.style.overflow=o?'hidden':''}
 mb.addEventListener('click',function(){setMenu(true)});
@@ -728,7 +740,8 @@ document.getElementById('menuClose').addEventListener('click',function(){setMenu
 drawer.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){setMenu(false)})});
 
 /* reveal */
-var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12,rootMargin:'0px 0px -6% 0px'});
+/* dispara um pouco antes do bloco entrar na tela, para a animação acompanhar a rolagem */
+var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:0,rootMargin:'0px 0px 8% 0px'});
 document.querySelectorAll('.reveal').forEach(function(el){io.observe(el)});
 
 /* letreiro por requestAnimationFrame (não depende de @keyframes) */
@@ -746,7 +759,7 @@ function para(){
   var vh=window.innerHeight;
   px.forEach(function(el){var r=el.parentNode.getBoundingClientRect();if(r.bottom<0||r.top>vh)return;var c=(r.top+r.height/2-vh/2);el.style.transform='translate3d(0,'+(c*parseFloat(el.dataset.parallax))+'px,0)'});
 }
-window.addEventListener('scroll',function(){requestAnimationFrame(para)},{passive:true}); para();
+onScroll();
 
 /* vídeos: só carregam perto da tela */
 var vio=new IntersectionObserver(function(es){es.forEach(function(e){var v=e.target;
