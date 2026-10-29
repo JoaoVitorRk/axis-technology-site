@@ -92,11 +92,12 @@ p.lead{font-size:clamp(17px,1.35vw,20px);color:var(--muted-d);max-width:56ch}
 .hero .stage canvas{display:block;width:100%!important;height:100%!important}
 .hero{container-type:size}
 /* computador: o vídeo mantém 16:9 na altura da tela e o corpo termina em ~66% da largura, à direita do título */
-.hero-video{position:absolute;top:0;height:100%;width:177.78cqh;left:calc(70cqw - 106.67cqh);object-fit:cover;transform-origin:60% 55%;will-change:transform,filter,opacity;transition:opacity .45s ease;
+.hero-video{position:absolute;top:0;height:100%;width:177.78cqh;left:calc(70cqw - 106.67cqh);object-fit:cover;transform-origin:60% 55%;will-change:transform;
   -webkit-mask-image:linear-gradient(90deg,transparent 0,#000 14%,#000 90%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 14%,#000 90%,transparent 100%)}
 @media (max-width:980px){.hero-video{left:0;width:100%;height:84%;object-position:center bottom;
   -webkit-mask-image:linear-gradient(180deg,#000 82%,transparent 100%);mask-image:linear-gradient(180deg,#000 82%,transparent 100%)}}
-.hero-video.fade{opacity:0}
+.hero-loopfade{position:absolute;inset:0;background:var(--ink);opacity:0;pointer-events:none;transition:opacity .45s ease}
+.hero-loopfade.on{opacity:1}
 .hero-dim{position:absolute;inset:0;background:var(--ink);opacity:0;pointer-events:none;will-change:opacity}
 .hero-video::-webkit-media-controls{display:none!important}
 .hero::before{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;background:linear-gradient(90deg,rgba(3,9,13,.88) 0%,rgba(3,9,13,.55) 30%,rgba(3,9,13,0) 55%),linear-gradient(0deg,rgba(3,9,13,.7) 0%,rgba(3,9,13,0) 22%)}
@@ -398,6 +399,7 @@ p.lead{font-size:clamp(17px,1.35vw,20px);color:var(--muted-d);max-width:56ch}
 <section class="hero" id="inicio">
   <div class="stage" id="stage" aria-hidden="true">
     <video id="heroVideo" class="hero-video" muted playsinline preload="auto" poster="media/hero-poster.jpg" data-pc="media/hero-16x9.mp4" data-cel="media/hero-9x16.mp4"></video>
+    <div class="hero-loopfade" id="heroLoopFade"></div>
     <div class="hero-dim" id="heroDim"></div>
   </div>
   <div class="hud mono" aria-hidden="true">
@@ -690,26 +692,34 @@ document.querySelectorAll('[data-wa]').forEach(function(a){
 var hero=document.querySelector('.hero');
 setTimeout(function(){hero.classList.add('go')},260);
 
-/* vídeo da abertura: toca uma vez e segura o último quadro (o eixo alinhado) */
+/* abertura: no computador, vídeo em loop; no celular, imagem animada (o celular bloqueia vídeo automático,
+   inclusive no modo economia de bateria, mas nunca bloqueia imagem animada) */
 var hv=document.getElementById('heroVideo');
 if(hv&&!/[?&]hero=3d/.test(location.search)){
   var cel=window.matchMedia('(max-width: 980px)').matches;
-  if(cel)hv.poster='media/hero-poster-cel.jpg';
-  hv.src=cel?hv.dataset.cel:hv.dataset.pc;
-  hv.loop=true;
-  hv.addEventListener('error',function(){hv.remove()});
-  var p=hv.play(); if(p&&p.catch)p.catch(function(){});
-  /* fade curto pro escuro na virada do loop e painel de leitura no ritmo do vídeo */
-  var hb=document.getElementById('hudBase'),he=document.getElementById('hudEixo'),lastBase='',lastEixo='';
-  (function sync(){
-    if(hv.isConnected&&hv.duration){
-      var t=hv.currentTime,r=hv.duration-t;
-      hv.classList.toggle('fade',r<.5||t<.12);
-      var b=t>1.1?'palmilha AXIS':'sem palmilha',e=t>6.4?'alinhado':'em leitura';
-      if(b!==lastBase){hb.textContent=lastBase=b} if(e!==lastEixo){he.textContent=lastEixo=e}
-    }
-    requestAnimationFrame(sync);
-  })();
+  var hb=document.getElementById('hudBase'),he=document.getElementById('hudEixo'),lf=document.getElementById('heroLoopFade');
+  if(cel){
+    hv.poster='media/hero-poster-cel.jpg';
+    var im=new Image();
+    im.className='hero-video'; im.alt=''; im.decoding='async'; im.setAttribute('aria-hidden','true');
+    im.onload=function(){ im.id='heroVideo'; hv.replaceWith(im); hv=im; };
+    im.src='media/hero-9x16.webp';
+  }else{
+    hv.src=hv.dataset.pc; hv.loop=true;
+    hv.addEventListener('error',function(){hv.remove()});
+    var p=hv.play(); if(p&&p.catch)p.catch(function(){});
+    /* fade curto pro escuro na virada do loop numa camada por cima (o vídeo nunca fica invisível) e painel de leitura no ritmo do vídeo */
+    var lastBase='',lastEixo='';
+    (function sync(){
+      if(hv.isConnected&&hv.duration){
+        var t=hv.currentTime,r=hv.duration-t;
+        lf.classList.toggle('on',r<.5||t<.12);
+        var b=t>1.1?'palmilha AXIS':'sem palmilha',e=t>6.4?'alinhado':'em leitura';
+        if(b!==lastBase){hb.textContent=lastBase=b} if(e!==lastEixo){he.textContent=lastEixo=e}
+      }
+      requestAnimationFrame(sync);
+    })();
+  }
 }else if(hv){hv.remove()}
 
 /* topo, cortina e menu */
@@ -726,7 +736,7 @@ function onScroll(){
     if(cue)cue.style.opacity=String(Math.max(0,1-s*3));if(hud)hud.style.opacity=String(Math.max(0,1-s*2));
     var v=document.getElementById('heroVideo');
     if(v){v.style.transform='translate3d(0,'+(s*-6)+'vh,0) scale('+(1+s*.22)+')';
-      if(s>=1&&!coberto){coberto=true;v.pause()} else if(s<1&&coberto){coberto=false;var pp=v.play();if(pp&&pp.catch)pp.catch(function(){})}}
+      if(v.pause){if(s>=1&&!coberto){coberto=true;v.pause()} else if(s<1&&coberto){coberto=false;var pp=v.play();if(pp&&pp.catch)pp.catch(function(){})}}}
     if(dim)dim.style.opacity=String(s*.65);
   }
   window.__heroScroll=s;
