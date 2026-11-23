@@ -460,6 +460,6 @@ if (webglOk()) {
     let started = false;
     const go3D = () => { if (started) return; started = true; document.getElementById('heroVideo')?.remove(); hero3D(g); };
     if (!hv || !hv.isConnected) go3D();
-    else { hv.addEventListener('error', go3D); if (hv.error) go3D(); }
+    else if (hv.tagName === 'VIDEO') { hv.addEventListener('error', go3D); if (hv.error) go3D(); }
   } catch (e) { console.error(e); document.documentElement.classList.add('no3d'); }
 } else document.documentElement.classList.add('no3d');
