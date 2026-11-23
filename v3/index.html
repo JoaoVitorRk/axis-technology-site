@@ -108,12 +108,12 @@ video{pointer-events:none}
 .after-hero::before{content:"";position:absolute;left:0;right:0;top:0;height:1px;z-index:3;background:linear-gradient(90deg,transparent,rgba(69,224,194,.8),transparent)}
 .hero .wrap{position:relative;z-index:2;height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:clamp(40px,8vh,96px)}
 .hero-copy{max-width:640px}
-.hero h1{font-size:clamp(46px,6.6vw,108px);margin:22px 0 26px}
+.hero h1{font-size:clamp(46px,6.6vw,108px);margin:22px 0 24px}
 .hero h1 .w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.08em;margin-bottom:-.08em}
 .hero h1 .w>span{display:inline-block}
 .js .hero h1 .w>span{transform:translateY(105%)}
 .js .hero.go h1 .w>span{transform:none;transition:transform 1s cubic-bezier(.2,.8,.2,1)}
-.hero p.lead{max-width:46ch}
+.hero p.lead{max-width:38ch;text-wrap:balance;font-size:clamp(19px,1.55vw,24px);line-height:1.42;color:rgba(236,227,206,.9);font-weight:300;font-stretch:104%;letter-spacing:-.005em}
 .hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
 .js .hero .fade{opacity:0;transform:translateY(14px)}
 .js .hero.go .fade{opacity:1;transform:none;transition:opacity .9s ease,transform .9s cubic-bezier(.2,.8,.2,1)}
@@ -272,8 +272,6 @@ video{pointer-events:none}
 .pts b{display:block;font-weight:400;font-size:clamp(19px,1.6vw,23px);font-stretch:108%;letter-spacing:-.01em;line-height:1.25}
 .pts li span:not(.n){display:block;color:var(--muted-d);font-size:16px;margin-top:6px;line-height:1.5}
 .step.final .btn{margin-top:30px}
-.hero-lead-m .trio{display:flex;flex-wrap:wrap;gap:8px 16px;margin-top:18px;color:rgba(236,227,206,.55)}
-.hero-lead-m .trio span::before{content:"+ ";color:var(--mint)}
 
 /* agendar */
 .cta-final{display:flex;flex-direction:column;align-items:center;gap:20px;margin:clamp(36px,4vw,56px) 0 clamp(60px,7vw,100px)}
@@ -309,14 +307,12 @@ video{pointer-events:none}
   .info{grid-template-columns:minmax(0,1fr);gap:22px}
   .hero .hud{display:none}
   .hero .scroll-cue{display:none}
-  .hero::before{background:linear-gradient(180deg,rgba(3,9,13,.92) 0%,rgba(3,9,13,.55) 26%,rgba(3,9,13,0) 42%,rgba(3,9,13,0) 70%,rgba(3,9,13,.85) 100%)}
+  .hero::before{background:linear-gradient(180deg,rgba(3,9,13,.94) 0%,rgba(3,9,13,.86) 30%,rgba(3,9,13,.6) 44%,rgba(3,9,13,0) 60%,rgba(3,9,13,0) 72%,rgba(3,9,13,.88) 100%)}
   .hero .wrap{justify-content:flex-start;padding-top:96px;padding-bottom:26px}
   .hero-copy{display:flex;flex-direction:column;flex:1;max-width:none}
-  .hero h1{font-size:clamp(40px,10.4vw,64px);margin:14px 0 0}
-  .hero-copy>.lead{display:none}
+  .hero h1{font-size:clamp(40px,10.6vw,64px);margin:14px 0 0}
+  .hero-copy>.lead{margin-top:16px;max-width:none;font-size:clamp(16px,4.4vw,20px);line-height:1.42;text-shadow:0 1px 16px rgba(3,9,13,.85)}
   .hero .ctas{margin-top:auto}
-  .hero-lead-m{display:block!important;background:var(--ink);padding:34px var(--gut) 44px}
-  .hero-lead-m p{max-width:46ch}
   .crocs::after{background:linear-gradient(0deg,var(--ink) 0%,rgba(3,9,13,.86) 45%,rgba(3,9,13,.2) 75%,var(--ink) 100%)}
   .crocs .wrap{justify-content:flex-end;min-height:600px;padding-bottom:60px}
   .so-pc{display:none!important}
@@ -331,7 +327,10 @@ video{pointer-events:none}
   .btn .ic{width:36px;height:36px;flex:none}
   .hero{min-height:620px}
   .hero .ctas{gap:10px}
-  .hero .ctas .btn{flex:1 1 auto;justify-content:space-between}
+  .hero .ctas .btn{flex:1 1 100%;justify-content:space-between}
+  .hero .ctas .btn-ghost{justify-content:center;gap:6px;border:0;padding:2px 0 0;font-family:var(--mono);font-size:11px;font-weight:400;letter-spacing:.16em;text-transform:uppercase;color:rgba(236,227,206,.72)}
+  .hero .ctas .btn-ghost .ic{width:24px;height:24px;background:none;transform:rotate(135deg)}
+  .hero .ctas .btn-ghost .ic svg{width:11px;height:11px}
 }
 </style>
 </head>
@@ -418,7 +417,7 @@ video{pointer-events:none}
     <div class="hero-copy" id="heroCopy">
       <span class="label fade">Palmilha personalizada em 3D · Guarapuava, PR</span>
       <h1 aria-label="Sua postura começa nos pés."><span class="w"><span>Sua</span></span> <span class="w"><span>postura</span></span> <span class="w"><span>começa</span></span> <span class="w"><span>nos</span></span> <span class="w"><span><em>pés</em>.</span></span></h1>
-      <p class="lead fade">Palmilha feita sob medida para o seu pé, a partir de uma avaliação com fisioterapeuta.</p>
+      <p class="lead fade">Palmilha feita sob medida, a partir de uma avaliação com fisioterapeuta.</p>
       <div class="ctas fade">
         <a class="btn btn-solid" data-wa="agendar" href="#agendar">Agendar minha avaliação <span class="ic"><svg><use href="#arrow"/></svg></span></a>
         <a class="btn btn-ghost" href="#como-funciona">Como funciona <span class="ic"><svg><use href="#arrow"/></svg></span></a>
@@ -429,11 +428,6 @@ video{pointer-events:none}
 </section>
 
 <div class="after-hero">
-<div class="hero-lead-m" style="display:none">
-  <p class="lead">Palmilha feita sob medida para o seu pé, a partir de uma avaliação com fisioterapeuta.</p>
-  <p class="trio mono"><span>Avaliação presencial</span><span>Projeto 3D</span><span>Impressão 3D</span></p>
-</div>
-
 <div class="fade-band ink-to-paper" aria-hidden="true"></div>
 
 <!-- 01 · POR QUE AVALIAR OS PÉS -->
