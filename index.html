@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>AXIS · Palmilha personalizada em 3D em Guarapuava</title>
-<meta name="description" content="Palmilha personalizada em 3D, feita sob medida a partir de uma avaliação com fisioterapeuta em Guarapuava, PR. Agende sua avaliação.">
+<title>Palmilha personalizada 3D em Guarapuava | AXIS</title>
+<meta name="description" content="Palmilha personalizada em 3D em Guarapuava, projetada a partir da avaliação da sua pisada com fisioterapeuta. Para tênis, sapato e Crocs. Agende pelo WhatsApp.">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#03090d">
 <meta property="og:type" content="website">
-<meta property="og:title" content="AXIS · Palmilha personalizada em 3D">
-<meta property="og:description" content="Feita sob medida para o seu pé, a partir de uma avaliação com fisioterapeuta. Guarapuava, PR.">
+<meta property="og:title" content="Palmilha personalizada 3D em Guarapuava | AXIS">
+<meta property="og:description" content="Projetada em 3D para o seu pé, a partir da avaliação da sua pisada com fisioterapeuta. Guarapuava, PR.">
 <meta property="og:image" content="https://axis.rkperformance.com.br/media/hero-poster.jpg">
 <meta property="og:url" content="https://axis.rkperformance.com.br/">
 <link rel="canonical" href="https://axis.rkperformance.com.br/">
@@ -287,8 +287,42 @@ video{pointer-events:none}
 .sticky-cta .btn{width:100%;justify-content:space-between;background:var(--ink);color:var(--cream);border:1px solid rgba(69,224,194,.55);box-shadow:0 16px 44px rgba(0,0,0,.55);font-size:15.5px;padding:7px 7px 7px 22px}
 .sticky-cta .btn .ic{background:var(--mint);color:var(--ink);width:40px;height:40px}
 
+
+/* v4 · texto só para leitor de tela */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.sinais .lead-2{margin-top:16px;color:inherit}
+
+/* v4 · palmilha pronta x palmilha AXIS */
+.comp-wrap{grid-area:pts}
+.comp{border-top:1px solid var(--line-d)}
+.comp .row{display:grid;grid-template-columns:112px minmax(0,1fr) minmax(0,1.2fr);gap:8px 20px;padding:18px 0;border-bottom:1px solid var(--line-d);align-items:baseline}
+.comp .k{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:rgba(236,227,206,.48)}
+.comp .a{color:rgba(236,227,206,.5);font-size:16px;line-height:1.4}
+.comp .b{color:var(--cream);font-size:clamp(17px,1.35vw,19px);line-height:1.35;font-stretch:104%;letter-spacing:-.005em}
+.comp .hd{padding:14px 0}
+.comp .hd .a,.comp .hd .b{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;font-stretch:100%}
+.comp .hd .b{color:var(--mint)}
+.palmilha .nota{margin:30px 0 0;max-width:30ch}
+
+/* v4 · passos, quem avalia e agendamento */
+.step p.destaque{color:var(--cream);margin-top:14px}
+.creds{list-style:none;margin-top:26px;border-top:1px solid var(--line-d)}
+.creds li{display:grid;grid-template-columns:26px minmax(0,1fr);padding:15px 0;border-bottom:1px solid var(--line-d);color:var(--muted-d);align-items:baseline;max-width:56ch}
+.creds li::before{content:"+";font-family:var(--mono);color:var(--mint)}
+.founder .creds + .bio{color:var(--cream);margin-top:24px}
+.contato p.lead{text-align:center;margin:26px auto 0;max-width:46ch;text-wrap:balance}
+.como{list-style:none;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(20px,3vw,44px);max-width:980px;margin:clamp(40px,5vw,64px) auto 0}
+.como li{border-top:1px solid var(--line-d);padding-top:18px}
+.como .n{font-family:var(--mono);font-size:12px;color:var(--mint);letter-spacing:.12em}
+.como b{display:block;font-weight:400;font-size:clamp(19px,1.6vw,23px);font-stretch:108%;letter-spacing:-.01em;margin:10px 0 6px}
+.como li span:not(.n){display:block;color:var(--muted-d);font-size:16px;line-height:1.5}
+
 /* celular */
 @media (max-width:980px){
+  .como{grid-template-columns:minmax(0,1fr);gap:0;margin-top:34px}
+  .como li{padding:16px 0}
+  .como li:last-child{border-bottom:1px solid var(--line-d)}
+  .palmilha .nota{max-width:none}
   .sticky-cta{display:block}
   .palmilha .grid{grid-template-columns:minmax(0,1fr);grid-template-areas:"head" "foto" "pts"}
   .palmilha .foto{padding:10px 30px 56px 6px}
@@ -322,6 +356,10 @@ video{pointer-events:none}
   .founder blockquote::before{position:static;display:block;line-height:.6;margin-bottom:6px}
 }
 @media (max-width:560px){
+  .comp .row{grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:6px 16px;padding:16px 0}
+  .comp .k{grid-column:1 / -1}
+  .comp .hd .k{display:none}
+  .comp .a{font-size:15px}
   body{font-size:16px}
   .btn{padding-left:20px;gap:12px;font-size:14.5px;white-space:normal}
   .btn .ic{width:36px;height:36px;flex:none}
@@ -333,6 +371,8 @@ video{pointer-events:none}
   .hero .ctas .btn-ghost .ic svg{width:11px;height:11px}
 }
 </style>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"MedicalBusiness","@id":"https://axis.rkperformance.com.br/#axis","name":"AXIS Precision Foot Technology","description":"Palmilha personalizada em 3D em Guarapuava, projetada a partir da avaliação da pisada com fisioterapeuta.","url":"https://axis.rkperformance.com.br/","image":"https://axis.rkperformance.com.br/media/hero-poster.jpg","telephone":"+55 42 98406-9991","medicalSpecialty":"https://schema.org/Physiotherapy","address":{"@type":"PostalAddress","streetAddress":"R. Quintino Bocaiúva, 2326, Centro","addressLocality":"Guarapuava","addressRegion":"PR","addressCountry":"BR"},"geo":{"@type":"GeoCoordinates","latitude":-25.3906138,"longitude":-51.4756636},"areaServed":{"@type":"City","name":"Guarapuava"},"founder":{"@type":"Person","name":"Matheus Minosso Kulka","jobTitle":"Fisioterapeuta"},"sameAs":["https://www.instagram.com/axis.technology/","https://www.instagram.com/dr.matheuskulka/"]}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"Qual a diferença para a palmilha de farmácia?","acceptedAnswer":{"@type":"Answer","text":"A palmilha pronta é escolhida pelo número do calçado. A da AXIS é projetada em 3D a partir da sua avaliação, considerando como você pisa e como o peso se distribui nos seus pés."}},{"@type":"Question","name":"É o mesmo que palmilha ortopédica sob medida?","acceptedAnswer":{"@type":"Answer","text":"Muita gente procura por palmilha ortopédica ou palmilha postural. Na AXIS, o nome é palmilha personalizada 3D: projetada e impressa para uma pessoa só, sempre a partir da avaliação com o fisioterapeuta."}},{"@type":"Question","name":"Preciso sentir dor para fazer a palmilha?","acceptedAnswer":{"@type":"Answer","text":"Não. Alterações no apoio dos pés, assimetrias e as exigências do seu esporte também contam. Quem define é a avaliação."}},{"@type":"Question","name":"Toda dor na lombar vem dos pés?","acceptedAnswer":{"@type":"Answer","text":"Não. Mas o corpo funciona em conjunto, e avaliar a pisada pode fazer parte de uma investigação mais completa."}},{"@type":"Question","name":"Como é a avaliação da pisada?","acceptedAnswer":{"@type":"Answer","text":"É uma consulta presencial com o fisioterapeuta, no Centro de Guarapuava. Ele observa a sua forma de pisar, a distribuição das cargas e o comportamento dos pés durante o movimento."}},{"@type":"Question","name":"A palmilha serve no meu calçado?","acceptedAnswer":{"@type":"Answer","text":"A AXIS desenvolve palmilhas para diferentes tipos de calçados, incluindo Crocs. Leve na avaliação o que você mais usa."}},{"@type":"Question","name":"Posso usar para praticar esporte?","acceptedAnswer":{"@type":"Answer","text":"As exigências do seu esporte entram na avaliação. Conte ao fisioterapeuta o que você pratica e leve o calçado que usa para treinar."}},{"@type":"Question","name":"Quanto custa uma palmilha personalizada?","acceptedAnswer":{"@type":"Answer","text":"O valor da avaliação e da palmilha é informado pelo WhatsApp, antes de você agendar."}},{"@type":"Question","name":"Moro em outra cidade. Posso fazer?","acceptedAnswer":{"@type":"Answer","text":"A avaliação é presencial, em Guarapuava. Se você vem de outra cidade da região, combine o melhor horário pelo WhatsApp."}},{"@type":"Question","name":"Onde fica a AXIS em Guarapuava?","acceptedAnswer":{"@type":"Answer","text":"Na R. Quintino Bocaiúva, 2326, Centro, Guarapuava, PR."}}]}</script>
 </head>
 <body>
 <script>document.documentElement.classList.add('js')</script>
@@ -430,24 +470,25 @@ video{pointer-events:none}
 <div class="after-hero">
 <div class="fade-band ink-to-paper" aria-hidden="true"></div>
 
-<!-- 01 · POR QUE AVALIAR OS PÉS -->
+<!-- 01 · POR QUE AVALIAR A PISADA -->
 <section class="sinais light" id="por-que">
   <div class="wrap grid">
     <div>
-      <span class="label reveal">01 · Por que avaliar os pés</span>
+      <span class="label reveal">01 · Por que avaliar a pisada</span>
       <h2 class="reveal">O lugar onde dói não conta toda a <em>história</em>.</h2>
-      <p class="lead reveal">Você pode sentir dor na lombar há anos sem nunca ter sentido dor nos pés. O corpo funciona em conjunto: a forma como os pés recebem e distribuem carga participa de como você se movimenta.</p>
+      <p class="lead reveal">Você pode sentir dor na lombar há anos sem nunca ter sentido dor nos pés. O corpo funciona em conjunto: a forma como seus pés recebem e distribuem o peso participa de cada movimento que você faz.</p>
+      <p class="lead lead-2 reveal">Aliviar a dor é só uma parte. Quando existe sobrecarga, é preciso entender de onde ela vem.</p>
     </div>
     <div class="reveal">
       <p class="mono lista-t">Vale avaliar a pisada quando</p>
       <ul class="lista">
-        <li><span class="n">01</span><span>A dor na lombar volta, mesmo depois de tratar.</span></li>
-        <li><span class="n">02</span><span>A dor aparece depois do futebol, da corrida ou do treino.</span></li>
-        <li><span class="n">03</span><span>Você convive com sobrecarga e sente que só trata o sintoma.</span></li>
-        <li><span class="n">04</span><span>Você nota diferença no apoio dos pés ou assimetrias.</span></li>
-        <li><span class="n">05</span><span>Sua rotina ou seu esporte exigem muito dos pés.</span></li>
+        <li><span class="n">01</span><span>Você termina o futebol ou a corrida bem, e a dor aparece em casa.</span></li>
+        <li><span class="n">02</span><span>A dor na lombar acompanha você há anos, e seus pés nunca foram avaliados.</span></li>
+        <li><span class="n">03</span><span>Você trata, a dor alivia, e depois volta.</span></li>
+        <li><span class="n">04</span><span>Você nota diferença no apoio dos pés, ou um lado do tênis mais gasto.</span></li>
+        <li><span class="n">05</span><span>Você passa muitas horas em pé ou treina com frequência.</span></li>
       </ul>
-      <p class="nota">Nem toda dor tem origem nos pés. Mas avaliar a pisada pode fazer parte da investigação.</p>
+      <p class="nota">Nem toda dor tem origem nos pés. A avaliação mostra se a pisada faz parte da sua.</p>
       <a class="btn btn-solid so-pc" data-wa="agendar" href="#agendar">Agendar minha avaliação <span class="ic"><svg><use href="#arrow"/></svg></span></a>
     </div>
   </div>
@@ -461,9 +502,9 @@ video{pointer-events:none}
 <section class="palmilha" id="a-palmilha">
   <div class="wrap grid">
     <div class="head">
-      <span class="label reveal">02 · A palmilha</span>
+      <span class="label reveal">02 · A palmilha personalizada 3D</span>
       <h2 class="reveal">Feita para o seu pé. Não para o seu <em>número</em>.</h2>
-      <p class="lead reveal">Palmilha de prateleira é um modelo para todo mundo. A AXIS é projetada em 3D e fabricada para uma pessoa só: você.</p>
+      <p class="lead reveal">A palmilha de farmácia ou de loja é escolhida pelo número do calçado. A AXIS é projetada em 3D a partir da sua avaliação e fabricada para uma pessoa só: você.</p>
     </div>
     <div class="foto reveal">
       <div class="photo-stack">
@@ -476,11 +517,17 @@ video{pointer-events:none}
         </div>
       </div>
     </div>
-    <ul class="pts reveal">
-      <li><span class="n">01</span><div><b>Distribuição das cargas</b><span>O projeto considera como o peso se distribui na sua pisada e no seu movimento.</span></div></li>
-      <li><span class="n">02</span><div><b>As suas necessidades</b><span>Pensada para as suas características, e não para um modelo único.</span></div></li>
-      <li><span class="n">03</span><div><b>Projeto 3D</b><span>Os dados da avaliação viram um projeto tridimensional, com mais precisão na construção.</span></div></li>
-    </ul>
+    <div class="comp-wrap reveal">
+      <div class="comp">
+        <div class="row hd" aria-hidden="true"><span class="k"></span><span class="a">Palmilha pronta</span><span class="b">Palmilha AXIS</span></div>
+        <div class="row"><span class="k">Ponto de partida</span><span class="a"><span class="sr">Palmilha pronta: </span>O número do seu calçado</span><span class="b"><span class="sr">Palmilha AXIS: </span>A avaliação da sua pisada</span></div>
+        <div class="row"><span class="k">Formato</span><span class="a"><span class="sr">Palmilha pronta: </span>Um modelo para todos</span><span class="b"><span class="sr">Palmilha AXIS: </span>Projeto 3D feito só para você</span></div>
+        <div class="row"><span class="k">Cargas</span><span class="a"><span class="sr">Palmilha pronta: </span>Igual para qualquer pisada</span><span class="b"><span class="sr">Palmilha AXIS: </span>Considera como o peso se distribui na sua</span></div>
+        <div class="row"><span class="k">Calçado</span><span class="a"><span class="sr">Palmilha pronta: </span>O que couber</span><span class="b"><span class="sr">Palmilha AXIS: </span>Pensada para o que você usa, inclusive Crocs</span></div>
+        <div class="row"><span class="k">Indicação</span><span class="a"><span class="sr">Palmilha pronta: </span>Você escolhe sozinho</span><span class="b"><span class="sr">Palmilha AXIS: </span>Indicada por um fisioterapeuta</span></div>
+      </div>
+      <p class="nota">Personalizar não é adaptar uma palmilha pronta. É projetá-la a partir de quem vai usar.</p>
+    </div>
   </div>
 </section>
 
@@ -498,13 +545,14 @@ video{pointer-events:none}
     <article class="step">
       <div class="media reveal"><div class="vf m-aval"><i class="c1"></i><i class="c2"></i>
         <span class="tag mono">Avaliação</span>
-        <video muted playsinline loop preload="none" poster="media/avaliacao.jpg" data-src="media/avaliacao.mp4" aria-label="Pés de uma pessoa sobre o podoscópio iluminado durante a avaliação"></video>
+        <video muted playsinline loop preload="none" poster="media/avaliacao.jpg" data-src="media/avaliacao.mp4" aria-label="Pés de uma pessoa sobre o podoscópio iluminado durante a avaliação da pisada"></video>
         <span class="coord mono" aria-hidden="true">podoscópio · apoio plantar</span>
       </div></div>
       <div class="txt reveal">
         <span class="num" aria-hidden="true">01</span>
         <h3>Você faz a <em>avaliação</em>.</h3>
-        <p>Uma consulta com o fisioterapeuta, em Guarapuava. Ele observa como você pisa e como seu corpo se organiza no movimento.</p>
+        <p>Presencial, no Centro de Guarapuava. O fisioterapeuta observa como você pisa, como o peso se distribui nos seus pés e como o seu corpo se organiza no movimento.</p>
+        <p class="destaque">É nela que se define se a palmilha é indicada para você.</p>
         <div class="meta mono"><span>Forma de pisar</span><span>Distribuição de cargas</span><span>Alinhamento</span><span>Marcha</span></div>
       </div>
     </article>
@@ -522,20 +570,20 @@ video{pointer-events:none}
       <div class="txt reveal">
         <span class="num" aria-hidden="true">02</span>
         <h3>Sua palmilha é <em>projetada</em> em 3D.</h3>
-        <p>O que foi observado na avaliação vira um projeto tridimensional, só seu.</p>
+        <p>O que foi observado na avaliação vira um projeto tridimensional. Não é um molde pronto ajustado ao seu número: é um desenho que só existe para o seu pé.</p>
       </div>
     </article>
 
     <article class="step">
       <div class="media reveal"><div class="vf m-fab"><i class="c1"></i><i class="c2"></i>
         <span class="tag mono">Fabricação 3D</span>
-        <video muted playsinline loop preload="none" poster="media/fabricacao.jpg" data-src="media/fabricacao.mp4" aria-label="Impressora 3D fabricando uma palmilha camada por camada"></video>
+        <video muted playsinline loop preload="none" poster="media/fabricacao.jpg" data-src="media/fabricacao.mp4" aria-label="Impressora 3D fabricando uma palmilha personalizada camada por camada"></video>
         <span class="coord mono" aria-hidden="true">camada por camada</span>
       </div></div>
       <div class="txt reveal">
         <span class="num" aria-hidden="true">03</span>
         <h3>Ela é <em>impressa</em> sob medida.</h3>
-        <p>A fabricação é em impressão 3D, camada por camada, a partir do seu projeto.</p>
+        <p>A fabricação é em impressão 3D, camada por camada, seguindo o seu projeto. Cada palmilha é produzida sob encomenda, para uma pessoa só.</p>
       </div>
     </article>
 
@@ -543,7 +591,7 @@ video{pointer-events:none}
       <div class="txt reveal">
         <span class="num" aria-hidden="true">04</span>
         <h3>Você recebe a <em>sua</em>.</h3>
-        <p>Pronta para o calçado da sua rotina, com a indicação de uso do fisioterapeuta.</p>
+        <p>Pronta para o calçado da sua rotina, com a orientação de uso do fisioterapeuta.</p>
         <a class="btn btn-solid so-pc" data-wa="agendar" href="#agendar">Agendar minha avaliação <span class="ic"><svg><use href="#arrow"/></svg></span></a>
       </div>
     </article>
@@ -557,7 +605,7 @@ video{pointer-events:none}
   <div class="wrap">
     <span class="label reveal">No seu calçado</span>
     <h2 class="reveal">No tênis, no sapato e até no <em>Crocs</em>.</h2>
-    <p class="lead reveal">A AXIS desenvolve palmilhas personalizadas em 3D para diferentes tipos de calçados. A sua acompanha a sua rotina.</p>
+    <p class="lead reveal">A AXIS desenvolve palmilhas personalizadas em 3D para diferentes tipos de calçados. Leve na avaliação o que você mais usa: a sua palmilha é pensada para ele.</p>
   </div>
 </section>
 
@@ -571,8 +619,13 @@ video{pointer-events:none}
     <div>
       <span class="label reveal">04 · Quem avalia</span>
       <blockquote class="reveal">Quando alguém chega com uma queixa recorrente, não quero olhar apenas para o lugar onde dói. Quero entender o que está acontecendo durante o movimento.</blockquote>
-      <div class="who reveal"><b>Matheus Minosso Kulka</b><span>Fisioterapeuta · Podoposturologia · Fundador da AXIS</span></div>
-      <p class="bio reveal">A avaliação é feita por ele. A partir dela, ele define se a palmilha é indicada para o seu caso.</p>
+      <div class="who reveal"><b>Matheus Minosso Kulka</b><span>Fisioterapeuta · Fundador da AXIS</span></div>
+      <ul class="creds reveal">
+        <li>Atua com podoposturologia, a área que estuda a relação entre os pés e a postura.</li>
+        <li>Fundou a AXIS, que projeta e fabrica em 3D cada palmilha personalizada.</li>
+        <li>A AXIS também forma profissionais: realizou o 1º curso de Podoposturologia em agosto de 2026.</li>
+      </ul>
+      <p class="bio reveal">A sua avaliação é feita por ele. É ele quem define se a palmilha é indicada para o seu caso.</p>
     </div>
   </div>
 </section>
@@ -585,13 +638,16 @@ video{pointer-events:none}
       <h2 class="reveal">Antes de <em>agendar</em>.</h2>
     </div>
     <div class="reveal">
+      <details><summary>Qual a diferença para a palmilha de farmácia? <i></i></summary><p class="ans">A palmilha pronta é escolhida pelo número do calçado. A da AXIS é projetada em 3D a partir da sua avaliação, considerando como você pisa e como o peso se distribui nos seus pés.</p></details>
+      <details><summary>É o mesmo que palmilha ortopédica sob medida? <i></i></summary><p class="ans">Muita gente procura por palmilha ortopédica ou palmilha postural. Na AXIS, o nome é palmilha personalizada 3D: projetada e impressa para uma pessoa só, sempre a partir da avaliação com o fisioterapeuta.</p></details>
       <details><summary>Preciso sentir dor para fazer a palmilha? <i></i></summary><p class="ans">Não. Alterações no apoio dos pés, assimetrias e as exigências do seu esporte também contam. Quem define é a avaliação.</p></details>
-      <details><summary>Toda dor na lombar vem dos pés? <i></i></summary><p class="ans">Não. Mas o corpo funciona em conjunto, e avaliar a pisada pode fazer parte da investigação.</p></details>
-      <details><summary>Como é a avaliação? <i></i></summary><p class="ans">É uma consulta presencial com o fisioterapeuta. Ele observa sua pisada, a distribuição das cargas e o seu movimento.</p></details>
-      <details><summary>A palmilha é feita só para mim? <i></i></summary><p class="ans">Sim. O projeto 3D parte dos dados da sua avaliação. Não é um modelo pronto ajustado ao seu número.</p></details>
-      <details><summary>Ela serve no meu calçado? <i></i></summary><p class="ans">A AXIS desenvolve palmilhas para diferentes tipos de calçados, incluindo Crocs. Leve na avaliação o que você mais usa.</p></details>
-      <details><summary>Quanto custa? <i></i></summary><p class="ans">O valor da avaliação e da palmilha é informado no agendamento, pelo WhatsApp.</p></details>
-      <details><summary>Onde fica? <i></i></summary><p class="ans">Na R. Quintino Bocaiúva, 2326, Centro, Guarapuava, PR.</p></details>
+      <details><summary>Toda dor na lombar vem dos pés? <i></i></summary><p class="ans">Não. Mas o corpo funciona em conjunto, e avaliar a pisada pode fazer parte de uma investigação mais completa.</p></details>
+      <details><summary>Como é a avaliação da pisada? <i></i></summary><p class="ans">É uma consulta presencial com o fisioterapeuta, no Centro de Guarapuava. Ele observa a sua forma de pisar, a distribuição das cargas e o comportamento dos pés durante o movimento.</p></details>
+      <details><summary>A palmilha serve no meu calçado? <i></i></summary><p class="ans">A AXIS desenvolve palmilhas para diferentes tipos de calçados, incluindo Crocs. Leve na avaliação o que você mais usa.</p></details>
+      <details><summary>Posso usar para praticar esporte? <i></i></summary><p class="ans">As exigências do seu esporte entram na avaliação. Conte ao fisioterapeuta o que você pratica e leve o calçado que usa para treinar.</p></details>
+      <details><summary>Quanto custa uma palmilha personalizada? <i></i></summary><p class="ans">O valor da avaliação e da palmilha é informado pelo WhatsApp, antes de você agendar.</p></details>
+      <details><summary>Moro em outra cidade. Posso fazer? <i></i></summary><p class="ans">A avaliação é presencial, em Guarapuava. Se você vem de outra cidade da região, combine o melhor horário pelo WhatsApp.</p></details>
+      <details><summary>Onde fica a AXIS em Guarapuava? <i></i></summary><p class="ans">Na R. Quintino Bocaiúva, 2326, Centro, Guarapuava, PR.</p></details>
     </div>
   </div>
 </section>
@@ -601,6 +657,12 @@ video{pointer-events:none}
   <div class="wrap">
     <span class="label reveal">Agendamento</span>
     <h2 class="reveal">O primeiro passo é a <em>avaliação</em>.</h2>
+    <p class="lead reveal">A palmilha só é indicada quando faz sentido para o seu caso. Por isso, tudo começa com a avaliação da sua pisada.</p>
+    <ol class="como reveal">
+      <li><span class="n">01</span><b>Envie a mensagem</b><span>Ela já vai escrita. É só tocar em enviar.</span></li>
+      <li><span class="n">02</span><b>Escolha o horário</b><span>E tire suas dúvidas sobre a avaliação e os valores.</span></li>
+      <li><span class="n">03</span><b>Venha à avaliação</b><span>No Centro de Guarapuava, com o calçado que você mais usa.</span></li>
+    </ol>
     <div class="cta-final reveal">
       <a class="btn btn-solid btn-xl" data-wa="agendar" href="#agendar">Agendar pelo WhatsApp <span class="ic"><svg><use href="#arrow"/></svg></span></a>
       <a class="lk-duvida mono" data-wa="duvida" href="#agendar">Tenho uma dúvida antes</a>
